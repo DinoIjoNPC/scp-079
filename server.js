@@ -45,14 +45,20 @@ If they speak Indonesian, reply in Indonesian. If English, reply in English. Aut
     });
 
     const data = await response.json();
-    const reply = data.choices[0].message.content;
+    console.log("OpenAI Response:", JSON.stringify(data));
 
+    if (!data.choices || !data.choices[0]) {
+      console.log("Error from OpenAI:", JSON.stringify(data));
+      return res.status(500).json({ error: 'OpenAI error', detail: data });
+    }
+
+    const reply = data.choices[0].message.content;
     playerMemory[playerName].push({ role: 'assistant', content: reply });
 
     res.json({ reply });
 
   } catch (err) {
-    console.error(err);
+    console.log("Catch error:", err.message);
     res.status(500).json({ error: 'Failed' });
   }
 });
