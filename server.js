@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = 'ssk-proj-itkbWNvxugfrpV6s8a9hOo3ecxoudzyukkoUuKDJubBluiZWBIA7GPOytz4a1KhfiLQyhGzP0HT3BlbkFJpZIRtL2BqhHwVLjB51DbthIlWRZ7d5uUMF33w0_KMxqgcy3WzpG76erXKqdib4tQs1WaazH3cA';
 const playerMemory = {};
 
 app.post('/chat', async (req, res) => {
