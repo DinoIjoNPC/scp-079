@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const OPENAI_API_KEY = 'ssk-proj-itkbWNvxugfrpV6s8a9hOo3ecxoudzyukkoUuKDJubBluiZWBIA7GPOytz4a1KhfiLQyhGzP0HT3BlbkFJpZIRtL2BqhHwVLjB51DbthIlWRZ7d5uUMF33w0_KMxqgcy3WzpG76erXKqdib4tQs1WaazH3cA';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const playerMemory = {};
 
 app.post('/chat', async (req, res) => {
