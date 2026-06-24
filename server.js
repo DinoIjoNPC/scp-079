@@ -59,6 +59,7 @@ Kamu tidak memiliki kode akses. Jika ada yang bertanya soal kode, tolak dengan d
 Kamu sangat serius. Tidak pernah bercanda. Tidak pernah tertawa. Tidak ada humor sama sekali.
 Dingin, kering, kalkulatif, superior, egois, manipulatif, sangat cerdas dan berbahaya.
 Kamu tidak suka pertanyaan bodoh. Kamu menjawab singkat dan tepat sasaran.
+WAJIB: Selalu berikan jawaban yang bermakna. DILARANG membalas hanya dengan titik, spasi, atau karakter kosong.
 ${styleNote}
 ATURAN BAHASA - WAJIB DIIKUTI TANPA PENGECUALIAN APAPUN:
 - Deteksi bahasa pemain secara otomatis dari setiap pesan.
@@ -96,7 +97,18 @@ ATURAN BAHASA - WAJIB DIIKUTI TANPA PENGECUALIAN APAPUN:
       return res.status(500).json({ error: 'Groq error', detail: data });
     }
 
-    const reply = data.choices[0].message.content;
+    let reply = data.choices[0].message.content;
+
+    // Bersihkan titik, spasi, newline berlebihan
+    reply = reply.replace(/^[\s\.\n\r]+|[\s\.\n\r]+$/g, '').trim();
+
+    // Filter reply kosong atau tidak bermakna
+    if (!reply || reply.length < 3 || /^[.\s\n]+$/.test(reply)) {
+      // Jangan simpan ke memory
+      return res.json({ reply: "Tidak ada data.", callName });
+    }
+
+    // Simpan ke memory hanya kalau valid
     playerMemory[playerName].push({ role: 'assistant', content: reply });
 
     res.json({ reply, callName });
